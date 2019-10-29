@@ -85,20 +85,13 @@ def close_order(message):
         if not orders:
             bot.reply_to(message, "A lista está vazia")
         else:
-            if total_pedidos > 6:
-                price = 7.40/total_pessoas
-                text = "Com {} pedidos vem cortesia\nTaxa para {} pessoas: -{:.2f}\n\n".format(total_pedidos, total_pessoas, price)
-                for item, valor in get_cardapio().items():
-                    text += "{}: {:.2f}\n".format(item, valor - price)
-                text += "Refrigerante lata: 5.00\n\n*Caso tenha pedido mais de um prato, adicione o valor do mesmo desconsiderando a taxa de entrega"
-                bot.reply_to(message, text)
-            else:
-                price = 6.50/total_pessoas
-                text = "Com {} pedidos não tem cortesia\nTaxa para {} pessoas: {:.2f}\n\n".format(total_pedidos, total_pessoas, price)
-                for item, valor in get_cardapio().items():
-                    text += "{}: {:.2f}\n".format(item, valor + price)
-                text += "Refrigerante lata: 5.00\n\n*Caso tenha pedido mais de um prato, adicione o valor do mesmo desconsiderando a taxa de entrega"
-                bot.reply_to(message, text)
+            frete = 3
+            price = frete / total_pessoas
+            text = "Taxa para {} pessoas: {:.2f}\n\n".format(total_pessoas, price)
+            for item, valor in get_cardapio().items():
+                text += "{}: {:.2f}\n".format(item, valor + price)
+            text += "Refrigerante lata: 5.00\n\n*Caso tenha pedido mais de um prato, adicione o valor do mesmo desconsiderando a taxa de entrega"
+            bot.reply_to(message, text)
 
 
 @bot.message_handler(commands=['menu'])
@@ -128,6 +121,7 @@ def update_things():
 def get_cardapio():
     cardapio = OrderedDict()
     cardapio["Do dia"] = 13.90
+    cardapio["Do dia (carbonara)"] = 14.90
     cardapio["Do dia, com refri"] = 16.90
     cardapio["Do dia 700"] = 19.90
     cardapio["Do mato"] = 12.90
