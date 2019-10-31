@@ -1,10 +1,20 @@
-from collections import OrderedDict
-from config import apikey, allowed_chats
+# Python Imports
 import datetime
 import os
 import telebot
 
-bot = telebot.TeleBot(apikey, threaded = False)
+from collections import OrderedDict
+
+# Thirt Party Imports
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Constants
+ALLOWED_CHATS = os.getenv("ALLOWED_CHATS").split(',')
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+
+bot = telebot.TeleBot(TELEGRAM_TOKEN, threaded=False)
 
 
 @bot.message_handler(commands=['start', 'help'])
@@ -101,7 +111,7 @@ def print_menu(message):
 
 
 def check(message):
-    if message.chat.id in allowed_chats:
+    if message.chat.id in ALLOWED_CHATS:
         return True
     else:
         bot.send_message(message.chat.id, "Chat não cadastrado")
