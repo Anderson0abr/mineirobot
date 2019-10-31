@@ -111,7 +111,7 @@ def print_menu(message):
 
 
 def check(message):
-    if message.chat.id in ALLOWED_CHATS:
+    if str(message.chat.id) in ALLOWED_CHATS:
         return True
     else:
         bot.send_message(message.chat.id, "Chat não cadastrado")
